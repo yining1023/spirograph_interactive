@@ -1,7 +1,7 @@
 let graphs = [];
 const m = 3, n = 3;
-let speedBtn, resetBtn, colorBtn, aboutText, speedSlider;
-let colorful = true;
+let speedBtn, resetBtn, colorBtn, aboutText, speedSlider, defaultCanvass;
+let colorful = 0;
 
 function setup() { 
   createCanvas(windowWidth * 3 / 4, windowHeight);
@@ -9,19 +9,19 @@ function setup() {
   colorMode(HSB, 100);
   noFill();
   initGraphs();
-  speedBtn = createP('SPEED');
-  resetBtn = createP('RESET');
-  colorBtn = createP('COLOR');
-  resetBtn.style('position', windowWidth - windowWidth / 8, 50);
-  colorBtn.style('position', windowWidth - windowWidth / 8, 100);
-  speedBtn.style('position', windowWidth - windowWidth / 8, 150);
+  speedBtn = select('#speedbtn');
+  resetBtn = select('#resetbtn');
+  colorBtn = select('#colorbtn');
+  speedSlider = select('#speedslider');
+
+  defaultCanvass = select('#defaultCanvas0');
+  let startH = defaultCanvass.elt.offsetTop;
+
   resetBtn.mouseClicked(reset);
   colorBtn.mouseClicked(toggleColor);
+
   aboutText = select('.about-text');
-  aboutText.style('position', windowWidth / 8, windowHeight);
-  speedSlider = createSlider(1, 20, 8);
-  speedSlider.style('position', windowWidth - windowWidth / 8, 200);
-  // speedSlider.style('width', '20px');
+  aboutText.style('position', windowWidth / 8, startH + windowHeight);
 }
 
 function initGraphs() {
@@ -39,7 +39,8 @@ function reset() {
 }
 
 function toggleColor() {
-  colorful = !colorful;
+  colorful++;
+  if (colorful > 2) colorful = 0;
   reset();
 }
 
@@ -57,6 +58,7 @@ class Graph {
     this.R = Math.floor(random(90, 120));
     this.r = Math.floor(random(20, this.R - 20));
     this.p = Math.floor(random(10, this.r - 10));
+    this.oneColor = Math.floor((((this.step / 150 + this.centerX + this.centerY))) % 100);;
   }
 
   display() {
@@ -72,8 +74,9 @@ class Graph {
       this.y = this.R * ((1 - k) * Math.sin(t) - ((l * k) * Math.sin(ang)));
       
       let h = Math.floor((((this.step / 150 + this.centerX))) % 100);
-      if (colorful) stroke(h, 60, 80);
-      else stroke(30);
+      if (colorful === 0) stroke(h, 60, 80);
+      else if (colorful === 1) stroke(this.oneColor, 70, 80);
+      else if (colorful === 2) stroke(30);
       line(this.prevX, this.prevY, this.x, this.y);
       pop();
       this.step += speedSlider.value();

@@ -8,16 +8,20 @@
     <meta charset="utf-8" />
   </head>
   <body>
-    <script src="sketch.js"></script>
+    <h2 class="title fade-in">Spirograph Wilderness</h2>
+    <div class="controller controller-layout">
+      <span id="resetbtn" class="btn">RESET</span>
+      <span id="colorbtn" class="btn">CHANGE COLOR</span>
+      <div id="speedbtn" class="controller"><span>SPEED:</span><span><input id="speedslider" type='range' min="1" max="20" value="8"></span></div>
+    </div>
     <div class="about-text">
-      <h2>ABOUT</h2>
       <p>
         This visualization is inspired by my childhood memory of drawing with spirograph.
         You can interact with it by adjusting its color and speed.
-        Hope it can bring some therapeutic feeling to you.
         The code is <a target='_blank' href="https://github.com/yining1023/spirograph_interactive">here</a>.
         Made by <a target='_blank' href="https://1023.io">Yining Shi</a>.
       </p>
     </div>
+    <script src="sketch.js"></script>
   </body>
 </html>
