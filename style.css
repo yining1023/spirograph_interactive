@@ -40,6 +40,10 @@ a {
   cursor: pointer;
 }
 
+.space {
+  white-space: pre;
+}
+
 @-webkit-keyframes fadeIn {
   to {
     opacity: 1;
